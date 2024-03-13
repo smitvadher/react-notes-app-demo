@@ -1,0 +1,256 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.popup {
+  width: 35vw;
+  min-width: 350px;
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: -100px; /* Adjust this value based on your popup height */
+  padding: 25px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+.popup-close {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.popup form {
+  display: flex;
+  flex-direction: column;
+}
+
+.popup input,
+.popup textarea {
+  padding: 8px;
+  margin-bottom: 8px;
+}
+
+.popup-close {
+  cursor: pointer;
+}
+
+.popup-close:hover {
+  color: #ff0000;
+}
+
+input[type="text"],
+textarea {
+  border: none;
+  outline: none;
+  background-color: #eeeeee;
+  border-radius: 10px;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+  background-color: #cacaca;
+}
+
+input[type="checkbox"] {
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+label {
+  display: inline-block;
+}
+
+input[type="checkbox"] {
+  display: inline-block;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.popup textarea {
+  min-height: 100px;
+  max-height: 50vh;
+  transition: height 0.3s;
+  resize: none;
+  overflow-y: hidden;
+}
+
+.button {
+  background-color: #ffffff;
+  outline: 2px solid #eeeeee;
+  display: inline-block;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  border: unset;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  outline: 2px solid #3498db;
+  color: #3498db;
+  transform: scale(1.02);
+}
+
+.button-sm {
+  font-size: 1rem;
+  padding: 5px 10px;
+}
+
+.notes {
+  column-count: 4;
+  column-gap: 20px;
+  margin: 0 auto;
+}
+
+.note {
+  position: relative;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  display: inline-block;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  break-inside: avoid-column;
+  padding: 15px 15px 35px;
+  transition: all 0.3s ease;
+}
+
+.note.active {
+  border: 1px solid #a7a7a7;
+}
+
+.note .title {
+  margin-top: 0;
+  font-weight: bold;
+  user-select: none;
+}
+
+.note .content {
+  margin-bottom: 0;
+  word-wrap: break-word;
+  white-space: pre-line;
+  user-select: none;
+}
+
+.note .icon {
+  display: none;
+  cursor: pointer;
+  padding: 5px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+.note.active .icon {
+  display: block;
+}
+
+.icon:hover {
+  background-color: #cacaca;
+  opacity: 1;
+}
+
+.note .pin {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 12px;
+}
+
+.note .botton-icons {
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin: 5px 10px;
+}
+
+.note .botton-icons .icon {
+  margin-right: 5px;
+}
+
+.labels-selector {
+  position: absolute;
+  top: 80%;
+  left: 45px;
+  z-index: 1;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.labels-selector ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.labels-selector li {
+  margin-bottom: 8px;
+}
+
+.labels-selector li:last-child {
+  margin-bottom: 0;
+}
+
+.label-input {
+  padding: 8px;
+  margin-bottom: 8px;
+}
+
+.note-labels {
+  list-style: none;
+  padding: 5px 0 0;
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+.note-labels li {
+  display: inline-block;
+  margin-right: 5px;
+  padding: 2px 12px;
+  border: 1px solid #cccccc;
+  border-radius: 15px;
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.remove-label {
+  display: none !important;
+  position: absolute;
+  top: 50%;
+  right: 2px;
+  width: 10px !important;
+  height: 10px !important;
+  transform: translateY(-50%);
+  cursor: pointer;
+  background-color: #fff;
+}
+
+.note-labels li:hover .remove-label {
+  display: inline-block !important;
+}
