@@ -10,6 +10,7 @@ import {
   faArchive,
   faTags,
   faTimes,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import Labels from "./Labels";
 
@@ -18,8 +19,13 @@ interface NoteProp {
 }
 
 const Note = ({ note }: NoteProp) => {
-  const { saveNote, setEditingNote, toggleNotePin, toggleNoteArchive } =
-    useContext(NoteManagerContext) as NoteManagerContextProps;
+  const {
+    saveNote,
+    deleteNote,
+    setEditingNote,
+    toggleNotePin,
+    toggleNoteArchive,
+  } = useContext(NoteManagerContext) as NoteManagerContextProps;
 
   const [manageLabels, setManageLabels] = useState(false);
   const [isMouseOver, setIsMouseOver] = useState(false);
@@ -92,6 +98,12 @@ const Note = ({ note }: NoteProp) => {
           icon={faTags}
           onClick={() => setManageLabels(true)}
           title="Label note"
+        />
+        <FontAwesomeIcon
+          className="delete icon"
+          icon={faTrash}
+          onClick={() => deleteNote(note)}
+          title="Delete note"
         />
         {manageLabels && (
           <Labels

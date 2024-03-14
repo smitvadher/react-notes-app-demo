@@ -10,6 +10,7 @@ import {
   faArchive,
   faTags,
   faTimes,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import Labels from "./Labels";
 
@@ -19,7 +20,7 @@ interface NotePopupProps {
 }
 
 const NotePopup = ({ open = false, onClose }: NotePopupProps) => {
-  const { editingNote, setEditingNote, saveNote } = useContext(
+  const { editingNote, setEditingNote, saveNote, deleteNote } = useContext(
     NoteManagerContext
   ) as NoteManagerContextProps;
 
@@ -84,13 +85,24 @@ const NotePopup = ({ open = false, onClose }: NotePopupProps) => {
     setManageLabels(false);
   };
 
+  const cleanup = () => {
+    onClose?.();
+    setManageLabels(false);
+    setEditingNote(null);
+  };
+
+  const handleDeleteIconClick = () => {
+    if (editingNote) {
+      deleteNote(editingNote);
+    }
+    cleanup();
+  };
+
   const handleSaveNote = () => {
     if (!disableBtn) {
       saveNote?.(note);
     }
-    onClose?.();
-    setManageLabels(false);
-    setEditingNote(null);
+    cleanup();
   };
 
   const closeLabels = () => setManageLabels(false);
@@ -154,6 +166,14 @@ const NotePopup = ({ open = false, onClose }: NotePopupProps) => {
                   onClick={() => setManageLabels(true)}
                   title="Label note"
                 />
+                {editingNote && (
+                  <FontAwesomeIcon
+                    className="delete icon"
+                    icon={faTrash}
+                    onClick={handleDeleteIconClick}
+                    title="Delete note"
+                  />
+                )}
                 {manageLabels && (
                   <Labels
                     onSelect={handleLabelSelect}
