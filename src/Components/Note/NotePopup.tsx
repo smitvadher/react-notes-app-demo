@@ -116,7 +116,7 @@ const NotePopup = ({ open = false, onClose }: NotePopupProps) => {
           <div className="overlay" onClick={handleSaveNote}></div>
           <div className="popup">
             <FontAwesomeIcon
-              className="pin icon"
+              className={`pin icon ${note.isPinned ? "active" : ""}`}
               icon={faThumbTack}
               onClick={() => toggleNotePin(note)}
               title={note.isPinned ? "Unpin" : "Pin"}
@@ -155,7 +155,7 @@ const NotePopup = ({ open = false, onClose }: NotePopupProps) => {
               )}
               <div className="botton-icons">
                 <FontAwesomeIcon
-                  className="archive icon"
+                  className={`archive icon ${note.isArchived ? "active" : ""}`}
                   icon={faArchive}
                   onClick={() => toggleNoteArchive(note)}
                   title={note.isArchived ? "Unarchive" : "Archive"}

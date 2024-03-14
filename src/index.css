@@ -182,6 +182,11 @@ input[type="checkbox"] {
   display: block;
 }
 
+.icon.active {
+  color: #3498db;
+  opacity: 1;
+}
+
 .icon:hover {
   background-color: #cacaca;
   opacity: 1;
