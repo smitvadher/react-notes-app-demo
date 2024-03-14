@@ -4,6 +4,14 @@ import {
   NoteManagerContext,
   NoteManagerContextProps,
 } from "../../Context/NoteManagerProvider";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faThumbTack,
+  faArchive,
+  faTags,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
+import Labels from "./Labels";
 
 interface NotePopupProps {
   open?: boolean;
@@ -14,6 +22,8 @@ const NotePopup = ({ open = false, onClose }: NotePopupProps) => {
   const { editingNote, setEditingNote, saveNote } = useContext(
     NoteManagerContext
   ) as NoteManagerContextProps;
+
+  const [manageLabels, setManageLabels] = useState(false);
 
   const emptyNote = {
     title: "",
@@ -31,11 +41,6 @@ const NotePopup = ({ open = false, onClose }: NotePopupProps) => {
   }, [editingNote]);
 
   useEffect(autoExpandTextArea, [note.content]);
-
-  const closePopup = () => {
-    onClose?.();
-    setEditingNote(null);
-  };
 
   function autoExpandTextArea() {
     const textarea = document.getElementById(
@@ -62,10 +67,33 @@ const NotePopup = ({ open = false, onClose }: NotePopupProps) => {
     if (name === "content") autoExpandTextArea();
   };
 
-  const handleSaveNote = () => {
-    saveNote?.(note);
-    closePopup();
+  const toggleNotePin = (note: NoteObj) => {
+    setNote({ ...note, isPinned: !note.isPinned });
   };
+
+  const toggleNoteArchive = (note: NoteObj) => {
+    setNote({ ...note, isArchived: !note.isArchived });
+  };
+
+  const handleLabelSelect = (selectedLabels: string[]) => {
+    setNote({ ...note, labels: selectedLabels });
+  };
+
+  const handleLabelRemoveIconClick = (label: string) => {
+    setNote({ ...note, labels: note.labels.filter((l) => l !== label) });
+    setManageLabels(false);
+  };
+
+  const handleSaveNote = () => {
+    if (!disableBtn) {
+      saveNote?.(note);
+    }
+    onClose?.();
+    setManageLabels(false);
+    setEditingNote(null);
+  };
+
+  const closeLabels = () => setManageLabels(false);
 
   const disableBtn = !note.title || !note.content;
 
@@ -73,11 +101,14 @@ const NotePopup = ({ open = false, onClose }: NotePopupProps) => {
     <>
       {(open || editingNote) && (
         <>
-          <div className="overlay" onClick={closePopup}></div>
+          <div className="overlay" onClick={handleSaveNote}></div>
           <div className="popup">
-            <span className="popup-close" onClick={closePopup}>
-              X
-            </span>
+            <FontAwesomeIcon
+              className="pin icon"
+              icon={faThumbTack}
+              onClick={() => toggleNotePin(note)}
+              title={note.isPinned ? "Unpin" : "Pin"}
+            />
             <div className="content">
               <input
                 type="text"
@@ -95,12 +126,48 @@ const NotePopup = ({ open = false, onClose }: NotePopupProps) => {
                 value={note.content}
                 onChange={handleInputChange}
               />
+              {note.labels?.length > 0 && (
+                <ul className="note-labels">
+                  {note.labels.map((label) => (
+                    <li key={label}>
+                      {label}
+                      <FontAwesomeIcon
+                        className="remove-label icon"
+                        icon={faTimes}
+                        onClick={() => handleLabelRemoveIconClick(label)}
+                        title="Remove label"
+                      />
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <div className="botton-icons">
+                <FontAwesomeIcon
+                  className="archive icon"
+                  icon={faArchive}
+                  onClick={() => toggleNoteArchive(note)}
+                  title={note.isArchived ? "Unarchive" : "Archive"}
+                />
+                <FontAwesomeIcon
+                  className="labels icon"
+                  icon={faTags}
+                  onClick={() => setManageLabels(true)}
+                  title="Label note"
+                />
+                {manageLabels && (
+                  <Labels
+                    onSelect={handleLabelSelect}
+                    selectedLabels={note.labels}
+                    onClose={closeLabels}
+                  />
+                )}
+              </div>
               <button
-                className="button mt-2 w-100"
+                className="button button-sm mt-2 w-100"
                 disabled={disableBtn}
                 onClick={handleSaveNote}
               >
-                {editingNote ? "Save" : "Add"}
+                Close
               </button>
             </div>
           </div>

@@ -15,7 +15,7 @@
   top: 20%;
   left: 50%;
   transform: translateX(-50%);
-  margin-top: -100px; /* Adjust this value based on your popup height */
+  margin-top: -100px;
   padding: 25px;
   border-radius: 10px;
   background: #fff;
@@ -149,7 +149,8 @@ input[type="checkbox"] {
   user-select: none;
 }
 
-.note .icon {
+.note .icon,
+.popup .icon {
   display: none;
   cursor: pointer;
   padding: 5px;
@@ -158,6 +159,10 @@ input[type="checkbox"] {
   border-radius: 50%;
   transition: all 0.3s ease;
   opacity: 0.7;
+}
+
+.popup .icon {
+  display: inline;
 }
 
 .note.active .icon {
@@ -169,11 +174,16 @@ input[type="checkbox"] {
   opacity: 1;
 }
 
-.note .pin {
+.note .pin,
+.popup .pin {
   position: absolute;
   top: 0;
   right: 0;
   margin: 12px;
+}
+
+.popup .pin {
+  margin: 5px;
 }
 
 .note .botton-icons {
@@ -198,6 +208,11 @@ input[type="checkbox"] {
   border-radius: 10px;
   padding: 15px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.popup .labels-selector {
+  top: 72%;
+  left: 50px;
 }
 
 .labels-selector ul {
