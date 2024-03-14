@@ -64,7 +64,7 @@ const Labels = ({ selectedLabels, onSelect, onClose }: LabelsProps) => {
     if (inputValue.trim() !== "") {
       saveLabel(inputValue.trim());
       setInputValue("");
-      onSelect(selected);
+      onSelect([...selected, inputValue]);
     }
   };
 
