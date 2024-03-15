@@ -12,7 +12,7 @@ import {
   faTimes,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import Labels from "./Labels";
+import Labels from "../Label/Labels";
 
 interface NotePopupProps {
   open?: boolean;
