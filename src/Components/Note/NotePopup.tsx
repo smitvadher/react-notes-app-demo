@@ -125,7 +125,7 @@ const NotePopup = ({ open = false, onClose }: NotePopupProps) => {
               <input
                 type="text"
                 placeholder="Title"
-                className="title w-100"
+                className="title"
                 name="title"
                 value={note.title}
                 onChange={handleInputChange}
@@ -133,7 +133,7 @@ const NotePopup = ({ open = false, onClose }: NotePopupProps) => {
               <textarea
                 id="content-ta"
                 placeholder="Note"
-                className="content w-100 mt-2"
+                className="content"
                 name="content"
                 value={note.content}
                 onChange={handleInputChange}
@@ -183,7 +183,7 @@ const NotePopup = ({ open = false, onClose }: NotePopupProps) => {
                 )}
               </div>
               <button
-                className="button button-sm mt-2 w-100"
+                className="close button button-sm"
                 disabled={disableBtn}
                 onClick={handleSaveNote}
               >

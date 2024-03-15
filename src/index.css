@@ -111,6 +111,11 @@ input[type="checkbox"] {
   padding: 5px 10px;
 }
 
+.popup .close {
+  width: 100%;
+  margin-top: 10px;
+}
+
 .notes {
   column-count: 4;
   column-gap: 20px;
@@ -146,6 +151,16 @@ input[type="checkbox"] {
 
 .note.active {
   border: 1px solid #a7a7a7;
+}
+
+.popup .title {
+  font-weight: bold;
+  width: 100%;
+}
+
+.popup .content {
+  width: 100%;
+  margin-top: 10px;
 }
 
 .note .title {
@@ -233,6 +248,10 @@ input[type="checkbox"] {
   left: 50px;
 }
 
+.popup .botton-icons {
+  margin-top: 5px;
+}
+
 .labels-selector ul {
   list-style-type: none;
   padding: 0;
@@ -257,6 +276,7 @@ input[type="checkbox"] {
   padding: 5px 0 0;
   margin: 0;
   font-size: 0.8rem;
+  width: fit-content;
 }
 
 .note-labels li {
