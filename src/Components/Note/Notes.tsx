@@ -3,7 +3,7 @@ import {
   NoteManagerContext,
   NoteManagerContextProps,
 } from "../../Context/NoteManagerProvider";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import NotePopup from "./NotePopup";
 
 const Notes = () => {
@@ -19,14 +19,6 @@ const Notes = () => {
       <div className="button mb-3" onClick={() => setAddNotePopup(true)}>
         Add note
       </div>
-      {/* <div className="filters">
-        <ul>
-          <li>Archived</li>
-          {labels.map((label) => (
-            <li key={label}>{label}</li>
-          ))}
-        </ul>
-      </div> */}
       {addNotePopup && (
         <NotePopup
           open={addNotePopup}
