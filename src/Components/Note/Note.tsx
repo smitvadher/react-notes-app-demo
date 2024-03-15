@@ -61,7 +61,7 @@ const Note = ({ note }: NoteProp) => {
       onMouseEnter={() => setIsMouseOver(true)}
       onMouseLeave={() => setIsMouseOver(false)}
     >
-      <div className="note-section" onClick={handleContainerClick}>
+      <div className="n-clickable" onClick={handleContainerClick}>
         <FontAwesomeIcon
           className="pin icon"
           icon={faThumbTack}
