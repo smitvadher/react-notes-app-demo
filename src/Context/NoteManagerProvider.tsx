@@ -123,20 +123,22 @@ const NoteManagerProvider = ({ children }: NoteManagerProviderProps) => {
       },
     ];
     let savedFilters = parseJsonFromLs<Filter>("filters");
-    if (savedFilters) {
-      availableFilters.forEach((availableFilter) => {
-        const savedFilter = savedFilters.find(
-          (savedFilter) => savedFilter.key === availableFilter.key
-        );
-        if (savedFilter) {
-          savedFilter.options = availableFilter.options;
-        } else {
-          savedFilters.push(availableFilter);
-        }
-      });
-    } else {
-      savedFilters = availableFilters;
-    }
+
+    availableFilters.forEach((availableFilter) => {
+      const savedFilterIndex = savedFilters.findIndex(
+        (savedFilter) => savedFilter.key === availableFilter.key
+      );
+      if (savedFilterIndex !== -1) {
+        savedFilters[savedFilterIndex] = {
+          ...savedFilters[savedFilterIndex],
+          ...availableFilter, //apply available fields
+          selected: savedFilters[savedFilterIndex].selected, //keep previous selected option
+        };
+      } else {
+        savedFilters.push(availableFilter);
+      }
+    });
+
     setFilters(savedFilters);
   };
 
