@@ -1,10 +1,6 @@
 import Note from "./Note";
 import { Note as NoteObj } from "../../Shared/Types";
-import {
-  NoteManagerContext,
-  NoteManagerContextProps,
-} from "../../Context/NoteManagerProvider";
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import NotePopup from "./NotePopup";
 import Filters from "../Filter/Filters";
 
@@ -13,44 +9,17 @@ const Notes = () => {
   const [pinnedNotes, setPinnedNotes] = useState<NoteObj[]>([]);
   const [otherNotes, setOtherNotes] = useState<NoteObj[]>([]);
 
-  const { notes, filters } = useContext(
-    NoteManagerContext
-  ) as NoteManagerContextProps;
-
-  const handleOnFilterChange = () => {
-    let filteredNotes = notes;
-    filters.forEach((filter) => {
-      if (filter.valueType === "boolean") {
-        filteredNotes = filteredNotes.filter(
-          (note) => note[filter.key] == filter.selected
-        );
-      } else if (
-        filter.valueType === "array" &&
-        Array.isArray(filter.selected)
-      ) {
-        if (filter.selected.length > 0) {
-          filteredNotes = filteredNotes.filter((note) =>
-            (filter.selected as string[]).some((selected) =>
-              (note[filter.key] as string[]).includes(selected)
-            )
-          );
-        }
-      }
-    });
-    setPinnedNotes(filteredNotes.filter((note) => note.isPinned));
-    setOtherNotes(filteredNotes.filter((note) => !note.isPinned));
+  const handleFilteredNotes = (notes: NoteObj[]) => {
+    setPinnedNotes(notes.filter((note) => note.isPinned));
+    setOtherNotes(notes.filter((note) => !note.isPinned));
   };
-
-  useEffect(() => {
-    handleOnFilterChange();
-  }, [notes, filters]);
 
   return (
     <>
       <div className="button mb-3" onClick={() => setAddNotePopup(true)}>
         Add note
       </div>
-      <Filters></Filters>
+      <Filters filteredNotes={handleFilteredNotes}></Filters>
       {addNotePopup && (
         <NotePopup
           open={addNotePopup}
