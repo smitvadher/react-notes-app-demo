@@ -291,6 +291,7 @@ input[type="checkbox"] {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  user-select: none;
   transition: all 0.3s ease;
 }
 
@@ -326,10 +327,6 @@ input[type="checkbox"] {
   margin: 10px 0;
 }
 
-.filters .capsule.active {
-  outline: 2px solid #3498db;
-}
-
 .filters .active .icon {
   display: inline-block !important;
 }
@@ -338,4 +335,15 @@ input[type="checkbox"] {
   padding-right: 25px;
   font-weight: bold;
   color: #3498db;
+  outline: 2px solid #3498db;
+}
+
+.filters .capsule.reset.active {
+  color: #db3434;
+  outline: 2px solid #db3434;
+}
+
+.filters .capsule.reset .icon {
+  color: #db3434;
+  opacity: 1;
 }

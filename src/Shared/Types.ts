@@ -15,4 +15,5 @@ export interface Filter{
   valueType: "boolean" | "array";
   options?: string[];
   selected: boolean | string | string[];
+  default: boolean | string | string[];
 }

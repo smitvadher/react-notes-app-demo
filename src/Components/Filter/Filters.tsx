@@ -1,6 +1,6 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import {
   NoteManagerContext,
   NoteManagerContextProps,
@@ -15,66 +15,73 @@ const Filters = ({ filteredNotes }: LabelsProps) => {
   const { notes, filters, setFilters } = useContext(
     NoteManagerContext
   ) as NoteManagerContextProps;
-  // TODO : Try to move filter logic here if possible
-  // TODO : Add option to clear filters
-  // TODO : Refactor
+
+  const [removeOption, setRemoveOption] = useState(false);
+
   const toggleFilter = (filter: FilterObj) => {
     setFilters(
-      filters.map((prevFilter) => {
-        if (prevFilter.key === filter.key) {
-          return filter;
-        }
-        return prevFilter;
-      })
+      filters.map((prevFilter) =>
+        prevFilter.key === filter.key ? filter : prevFilter
+      )
     );
   };
 
   const toggleBooleanFilter = (filter: FilterObj) => {
-    filter.selected = !(filter.selected as boolean);
-    toggleFilter(filter);
+    toggleFilter({ ...filter, selected: !(filter.selected as boolean) });
   };
 
   const toggleArrayFilter = (filter: FilterObj, value: string) => {
     if (!Array.isArray(filter.selected)) {
       return;
     }
-    if (filter.selected.includes(value)) {
-      filter.selected = filter.selected.filter(
-        (prevSelected) => prevSelected !== value
-      );
-    } else {
-      filter.selected = [...filter.selected, value];
-    }
 
-    toggleFilter(filter);
+    const selectedValues = filter.selected.includes(value)
+      ? filter.selected.filter((prevSelected) => prevSelected !== value)
+      : [...filter.selected, value];
+
+    toggleFilter({ ...filter, selected: selectedValues });
   };
 
   const handleOnFilterChange = () => {
-    let filteredNotes = notes;
-    filters.forEach((filter) => {
-      if (filter.valueType === "boolean") {
-        filteredNotes = filteredNotes.filter(
-          (note) => note[filter.key] == filter.selected
-        );
-      } else if (
-        filter.valueType === "array" &&
-        Array.isArray(filter.selected)
-      ) {
-        if (filter.selected.length > 0) {
-          filteredNotes = filteredNotes.filter((note) =>
-            (filter.selected as string[]).some((selected) =>
+    return notes.filter((note) => {
+      return filters.every((filter) => {
+        if (filter.valueType === "boolean") {
+          return note[filter.key] == filter.selected;
+        } else if (
+          filter.valueType === "array" &&
+          Array.isArray(filter.selected)
+        ) {
+          return (
+            filter.selected.length === 0 ||
+            filter.selected.some((selected) =>
               (note[filter.key] as string[]).includes(selected)
             )
           );
         }
-      }
+        return true;
+      });
     });
-    return filteredNotes;
+  };
+
+  const resetFilters = () => {
+    setFilters(
+      filters.map((filter) => ({ ...filter, selected: filter.default }))
+    );
   };
 
   useEffect(() => {
     filteredNotes(handleOnFilterChange());
   }, [notes, filters]);
+
+  useEffect(() => {
+    setRemoveOption(
+      filters.some(
+        (filter) =>
+          filter.selected === true ||
+          (Array.isArray(filter.selected) && filter.selected.length > 0)
+      )
+    );
+  }, [filters]);
 
   return (
     <div className="filters">
@@ -125,6 +132,20 @@ const Filters = ({ filteredNotes }: LabelsProps) => {
           }
           return null;
         })}
+        {removeOption && (
+          <li
+            className="capsule reset active"
+            title="Reset filters"
+            onClick={resetFilters}
+          >
+            Reset filters
+            <FontAwesomeIcon
+              className="action-btn icon active"
+              icon={faTimes}
+              onClick={resetFilters}
+            />
+          </li>
+        )}
       </ul>
     </div>
   );

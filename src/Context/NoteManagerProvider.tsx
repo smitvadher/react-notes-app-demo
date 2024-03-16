@@ -113,6 +113,7 @@ const NoteManagerProvider = ({ children }: NoteManagerProviderProps) => {
         label: "Archived",
         valueType: "boolean",
         selected: false,
+        default: false,
       },
       {
         key: "labels",
@@ -120,6 +121,7 @@ const NoteManagerProvider = ({ children }: NoteManagerProviderProps) => {
         valueType: "array",
         options: labels,
         selected: [],
+        default: [],
       },
     ];
     let savedFilters = parseJsonFromLs<Filter>("filters");
