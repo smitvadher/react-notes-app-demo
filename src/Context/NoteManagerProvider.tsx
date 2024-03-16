@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
-import { Note } from "../Shared/Types";
+import { Filter, Note } from "../Shared/Types";
 
 export interface NoteManagerContextProps {
   notes: Note[];
@@ -12,6 +12,9 @@ export interface NoteManagerContextProps {
 
   labels: string[];
   saveLabel: (label: string) => void;
+
+  filters: Filter[];
+  setFilters: (filters: Filter[]) => void;
 }
 
 export interface NoteManagerProviderProps {
@@ -69,12 +72,59 @@ const NoteManagerProvider = ({ children }: NoteManagerProviderProps) => {
     setLabels((prevLabels) => [...prevLabels, label]);
   };
 
+  const [filters, setFilters] = useState<Filter[]>(() =>
+    parseJsonFromLs<Filter>("filters")
+  );
+
+  const prepareFilters = () => {
+    const availableFilters: Filter[] = [
+      {
+        key: "isArchived",
+        label: "Archived",
+        valueType: "boolean",
+        selected: false,
+      },
+      {
+        key: "labels",
+        label: "Labels",
+        valueType: "array",
+        options: labels,
+        selected: [],
+      },
+    ];
+    let savedFilters = parseJsonFromLs<Filter>("filters");
+    if (savedFilters) {
+      availableFilters.forEach((availableFilter) => {
+        const savedFilter = savedFilters.find(
+          (savedFilter) => savedFilter.key === availableFilter.key
+        );
+        if (savedFilter) {
+          savedFilter.options = availableFilter.options;
+        } else {
+          savedFilters.push(availableFilter);
+        }
+      });
+    } else {
+      savedFilters = availableFilters;
+    }
+    setFilters(savedFilters);
+  };
+
+  useEffect(() => {
+    prepareFilters();
+  }, []);
+
+  useEffect(() => {
+    setJsonToLs("filters", filters);
+  }, [filters]);
+
   useEffect(() => {
     setJsonToLs("notes", notes);
   }, [notes]);
 
   useEffect(() => {
     setJsonToLs("labels", labels);
+    prepareFilters();
   }, [labels]);
 
   const contextValue: NoteManagerContextProps = {
@@ -87,6 +137,8 @@ const NoteManagerProvider = ({ children }: NoteManagerProviderProps) => {
     toggleNoteArchive,
     labels,
     saveLabel,
+    filters,
+    setFilters,
   };
 
   return (

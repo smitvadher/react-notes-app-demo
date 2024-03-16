@@ -307,7 +307,11 @@ input[type="checkbox"] {
 }
 
 .sm .capsules .capsule {
-  padding-right: 25px;
+  padding-right: 24px;
+}
+
+.sm .filters .capsules .capsule {
+  padding-right: 12px;
 }
 
 .sm .capsules .capsule .action-btn {

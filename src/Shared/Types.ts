@@ -8,3 +8,11 @@ export interface Note {
   content: string;
   labels: string[];
 }
+
+export interface Filter{
+  key: keyof Note;
+  label: string;
+  valueType: "boolean" | "array";
+  options?: string[];
+  selected: boolean | string | string[];
+}
