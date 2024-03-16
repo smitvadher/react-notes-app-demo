@@ -35,46 +35,76 @@ const NoteManagerProvider = ({ children }: NoteManagerProviderProps) => {
     localStorage.setItem(key, JSON.stringify(values));
   };
 
+  const [editingNote, setEditingNote] = useState<Note | null>(null);
+
   const [notes, setNotes] = useState<Note[]>(() =>
     parseJsonFromLs<Note>("notes")
   );
 
-  const [editingNote, setEditingNote] = useState<Note | null>(null);
+  const [labels, setLabels] = useState<string[]>(() =>
+    parseJsonFromLs<string>("labels")
+  );
+
+  const [filters, setFilters] = useState<Filter[]>(() =>
+    parseJsonFromLs<Filter>("filters")
+  );
+
+  useEffect(() => {
+    prepareFilters();
+  }, []);
+
+  useEffect(() => {
+    setJsonToLs("filters", filters);
+  }, [filters]);
+
+  useEffect(() => {
+    setJsonToLs("notes", notes);
+  }, [notes]);
+
+  useEffect(() => {
+    setJsonToLs("labels", labels);
+    prepareFilters();
+  }, [labels]);
 
   const saveNote = (note: Note) => {
-    const updatedNotes = note.id
-      ? notes.map((prevNote) => (prevNote.id === note.id ? note : prevNote)) //update
-      : [...notes, { ...note, id: `note-${notes.length + 1}` }]; //create
-    setNotes(updatedNotes);
+    setNotes((prevNotes) => {
+      if (note.id) {
+        return prevNotes.map((prevNote) =>
+          prevNote.id === note.id ? note : prevNote
+        );
+      } else {
+        const lastNote = prevNotes?.[prevNotes.length - 1];
+        const lastNoteId = lastNote?.id
+          ? parseInt(lastNote.id.split("-")[1])
+          : 0;
+        note.id = `note-${lastNoteId + 1}`;
+        return [...prevNotes, note];
+      }
+    });
   };
 
-  const toggleNoteArchive = (note: Note) => {
-    saveNote({ ...note, isArchived: !note.isArchived });
+  const toggleNoteState = (note: Note, key: keyof Note) => {
+    saveNote({ ...note, [key]: !note[key] });
   };
 
   const toggleNotePin = (note: Note) => {
-    saveNote({ ...note, isPinned: !note.isPinned });
+    toggleNoteState(note, "isPinned");
+  };
+
+  const toggleNoteArchive = (note: Note) => {
+    toggleNoteState(note, "isArchived");
   };
 
   const deleteNote = (note: Note) => {
     setNotes(notes.filter((n) => n.id !== note.id));
   };
 
-  const [labels, setLabels] = useState<string[]>(() =>
-    parseJsonFromLs<string>("labels")
-  );
-
   const saveLabel = (label: string) => {
-    if (!label) {
+    if (!label || labels.includes(label)) {
       return;
     }
-
     setLabels((prevLabels) => [...prevLabels, label]);
   };
-
-  const [filters, setFilters] = useState<Filter[]>(() =>
-    parseJsonFromLs<Filter>("filters")
-  );
 
   const prepareFilters = () => {
     const availableFilters: Filter[] = [
@@ -109,23 +139,6 @@ const NoteManagerProvider = ({ children }: NoteManagerProviderProps) => {
     }
     setFilters(savedFilters);
   };
-
-  useEffect(() => {
-    prepareFilters();
-  }, []);
-
-  useEffect(() => {
-    setJsonToLs("filters", filters);
-  }, [filters]);
-
-  useEffect(() => {
-    setJsonToLs("notes", notes);
-  }, [notes]);
-
-  useEffect(() => {
-    setJsonToLs("labels", labels);
-    prepareFilters();
-  }, [labels]);
 
   const contextValue: NoteManagerContextProps = {
     notes,
