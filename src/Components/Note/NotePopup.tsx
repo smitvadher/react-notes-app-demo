@@ -139,12 +139,12 @@ const NotePopup = ({ open = false, onClose }: NotePopupProps) => {
                 onChange={handleInputChange}
               />
               {note.labels?.length > 0 && (
-                <ul className="note-labels">
+                <ul className="capsules">
                   {note.labels.map((label) => (
-                    <li key={label}>
+                    <li className="capsule" key={label}>
                       {label}
                       <FontAwesomeIcon
-                        className="remove-label icon"
+                        className="action-btn icon"
                         icon={faTimes}
                         onClick={() => handleLabelRemoveIconClick(label)}
                         title="Remove label"

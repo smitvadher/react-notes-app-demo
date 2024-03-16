@@ -177,7 +177,8 @@ input[type="checkbox"] {
 }
 
 .note .icon,
-.popup .icon {
+.popup .icon,
+.filters .icon {
   display: none;
   cursor: pointer;
   padding: 5px;
@@ -271,7 +272,7 @@ input[type="checkbox"] {
   margin-bottom: 8px;
 }
 
-.note-labels {
+.capsules {
   list-style: none;
   padding: 5px 0 0;
   margin: 0;
@@ -279,7 +280,7 @@ input[type="checkbox"] {
   width: fit-content;
 }
 
-.note-labels li {
+.capsules .capsule {
   display: inline-block;
   margin-right: 5px;
   padding: 2px 12px;
@@ -290,9 +291,10 @@ input[type="checkbox"] {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: all 0.3s ease;
 }
 
-.remove-label {
+.capsules .action-btn {
   display: none !important;
   position: absolute;
   top: 50%;
@@ -304,14 +306,32 @@ input[type="checkbox"] {
   background-color: #fff;
 }
 
-.sm .note-labels li {
+.sm .capsules .capsule {
   padding-right: 25px;
 }
 
-.sm .note-labels li .remove-label {
+.sm .capsules .capsule .action-btn {
   display: inline-block !important;
 }
 
-.note-labels li:hover .remove-label {
+.capsules .capsule:hover .action-btn {
   display: inline-block !important;
+}
+
+.filters {
+  margin: 10px 0;
+}
+
+.filters .capsule.active {
+  outline: 2px solid #3498db;
+}
+
+.filters .active .icon {
+  display: inline-block !important;
+}
+
+.filters .capsules .capsule.active {
+  padding-right: 25px;
+  font-weight: bold;
+  color: #3498db;
 }
