@@ -1,8 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import {
-  NoteManagerContext,
-  NoteManagerContextProps,
-} from "../../Context/NoteManagerProvider";
+import { NotesContext, NotesContextProps } from "../../Context/NotesContext";
 
 interface LabelsProps {
   selectedLabels: string[];
@@ -11,9 +8,7 @@ interface LabelsProps {
 }
 
 const Labels = ({ selectedLabels, onSelect, onClose }: LabelsProps) => {
-  const { labels, saveLabel } = useContext(
-    NoteManagerContext
-  ) as NoteManagerContextProps;
+  const { labels, saveLabel } = useContext(NotesContext) as NotesContextProps;
 
   const [inputValue, setInputValue] = useState("");
   const [selected, setSelected] = useState<string[]>(selectedLabels);

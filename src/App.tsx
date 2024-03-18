@@ -1,6 +1,6 @@
 import Notes from "./Components/Note/Notes";
 import NotePopup from "./Components/Note/NotePopup";
-import NoteManagerProvider from "./Context/NoteManagerProvider";
+import NotesProvider from "./Provider/NotesProvider";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -37,10 +37,10 @@ function App() {
     <>
       <div className={`container ${sizeClass}`}>
         <h1 className="text-center">Notes</h1>
-        <NoteManagerProvider>
+        <NotesProvider>
           <NotePopup></NotePopup>
           <Notes></Notes>
-        </NoteManagerProvider>
+        </NotesProvider>
       </div>
     </>
   );

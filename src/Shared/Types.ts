@@ -9,7 +9,7 @@ export interface Note {
   labels: string[];
 }
 
-export interface Filter{
+export interface Filter {
   key: keyof Note;
   label: string;
   valueType: "boolean" | "array";

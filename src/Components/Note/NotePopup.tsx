@@ -1,9 +1,6 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { Note as NoteObj } from "../../Shared/Types";
-import {
-  NoteManagerContext,
-  NoteManagerContextProps,
-} from "../../Context/NoteManagerProvider";
+import { NotesContext, NotesContextProps } from "../../Context/NotesContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faThumbTack,
@@ -21,8 +18,8 @@ interface NotePopupProps {
 
 const NotePopup = ({ open = false, onClose }: NotePopupProps) => {
   const { editingNote, setEditingNote, saveNote, deleteNote } = useContext(
-    NoteManagerContext
-  ) as NoteManagerContextProps;
+    NotesContext
+  ) as NotesContextProps;
 
   const [manageLabels, setManageLabels] = useState(false);
 

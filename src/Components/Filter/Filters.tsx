@@ -1,10 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
-import {
-  NoteManagerContext,
-  NoteManagerContextProps,
-} from "../../Context/NoteManagerProvider";
+import { NotesContext, NotesContextProps } from "../../Context/NotesContext";
 import { Filter as FilterObj, Note as NoteObj } from "../../Shared/Types";
 
 interface LabelsProps {
@@ -13,8 +10,8 @@ interface LabelsProps {
 
 const Filters = ({ filteredNotes }: LabelsProps) => {
   const { notes, filters, setFilters } = useContext(
-    NoteManagerContext
-  ) as NoteManagerContextProps;
+    NotesContext
+  ) as NotesContextProps;
 
   const [removeOption, setRemoveOption] = useState(false);
 
@@ -47,10 +44,7 @@ const Filters = ({ filteredNotes }: LabelsProps) => {
       return filters.every((filter) => {
         if (filter.valueType === "boolean") {
           return note[filter.key] == filter.selected;
-        } else if (
-          filter.valueType === "array" &&
-          Array.isArray(filter.selected)
-        ) {
+        } else if (Array.isArray(filter.selected)) {
           return (
             filter.selected.length === 0 ||
             filter.selected.some((selected) =>

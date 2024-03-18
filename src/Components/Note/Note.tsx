@@ -1,9 +1,6 @@
 import { useContext, useState } from "react";
 import { Note as NoteObj } from "../../Shared/Types";
-import {
-  NoteManagerContext,
-  NoteManagerContextProps,
-} from "../../Context/NoteManagerProvider";
+import { NotesContext, NotesContextProps } from "../../Context/NotesContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faThumbTack,
@@ -25,7 +22,7 @@ const Note = ({ note }: NoteProp) => {
     setEditingNote,
     toggleNotePin,
     toggleNoteArchive,
-  } = useContext(NoteManagerContext) as NoteManagerContextProps;
+  } = useContext(NotesContext) as NotesContextProps;
 
   const [manageLabels, setManageLabels] = useState(false);
   const [isMouseOver, setIsMouseOver] = useState(false);
