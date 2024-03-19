@@ -20,5 +20,5 @@ export interface Filter {
 
 export interface Background {
   name: string;
-  value?: string;
+  value: string;
 }
