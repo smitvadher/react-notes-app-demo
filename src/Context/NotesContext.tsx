@@ -12,6 +12,7 @@ export interface NotesContextProps {
 
   labels: string[];
   saveLabel: (label: string) => void;
+  deleteLabel: (label: string) => void;
 
   filters: Filter[];
   setFilters: (filters: Filter[]) => void;

@@ -3,9 +3,13 @@ import { Note as NoteObj } from "../../Shared/Types";
 import { useState } from "react";
 import NotePopup from "./NotePopup";
 import Filters from "../Filter/Filters";
+import LabelsPopup from "../Label/LabelsPopup";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faPen } from "@fortawesome/free-solid-svg-icons";
 
 const Notes = () => {
   const [addNotePopup, setAddNotePopup] = useState(false);
+  const [addLabelsPopup, setAddLabelsPopup] = useState(false);
   const [pinnedNotes, setPinnedNotes] = useState<NoteObj[]>([]);
   const [otherNotes, setOtherNotes] = useState<NoteObj[]>([]);
 
@@ -16,8 +20,19 @@ const Notes = () => {
 
   return (
     <>
-      <div className="button mb-3" onClick={() => setAddNotePopup(true)}>
+      <div
+        className="button button-sm my-3"
+        onClick={() => setAddNotePopup(true)}
+      >
+        <FontAwesomeIcon className="mx-1" icon={faPlus} />
         Add note
+      </div>
+      <div
+        className="button button-sm my-3 mx-2"
+        onClick={() => setAddLabelsPopup(true)}
+      >
+        <FontAwesomeIcon className="mx-1" icon={faPen} />
+        Manage labels
       </div>
       <Filters filteredNotes={handleFilteredNotes}></Filters>
       {addNotePopup && (
@@ -25,6 +40,12 @@ const Notes = () => {
           open={addNotePopup}
           onClose={() => setAddNotePopup(false)}
         ></NotePopup>
+      )}
+      {addLabelsPopup && (
+        <LabelsPopup
+          open={addLabelsPopup}
+          onClose={() => setAddLabelsPopup(false)}
+        ></LabelsPopup>
       )}
       {pinnedNotes.length + otherNotes.length === 0 ? (
         <div>No notes yet</div>

@@ -178,7 +178,8 @@ input[type="checkbox"] {
 
 .note .icon,
 .popup .icon,
-.filters .icon {
+.filters .icon,
+.labels-popup .icon {
   display: none;
   cursor: pointer;
   padding: 5px;
@@ -189,7 +190,8 @@ input[type="checkbox"] {
   opacity: 0.7;
 }
 
-.popup .icon {
+.popup .icon,
+.labels-popup .icon {
   display: inline;
 }
 
@@ -253,18 +255,41 @@ input[type="checkbox"] {
   margin-top: 5px;
 }
 
-.labels-selector ul {
+.labels-selector ul,
+.labels-popup ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-.labels-selector li {
+.labels-selector li,
+.labels-popup li {
   margin-bottom: 8px;
 }
 
 .labels-selector li:last-child {
   margin-bottom: 0;
+}
+
+.labels-popup {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: -100px;
+  padding: 15px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+.labels-popup ul {
+  margin: 0 5px;
+}
+
+.labels-popup .delete {
+  float: right;
 }
 
 .label-input {
@@ -321,6 +346,10 @@ input[type="checkbox"] {
 
 .capsules .capsule:hover .action-btn {
   display: inline-block !important;
+}
+
+.capsules .capsule input[type="text"] {
+  padding: 0 10px;
 }
 
 .filters {

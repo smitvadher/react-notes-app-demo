@@ -85,6 +85,19 @@ const NotesProvider = ({ children }: NotesProviderProps) => {
     setLabels((prevLabels) => [...prevLabels, label]);
   };
 
+  const deleteLabel = (label: string) => {
+    setLabels(labels.filter((l) => l !== label));
+
+    let updatedNotes = notes.map((note) => {
+      if (note.labels.includes(label)) {
+        note.labels = note.labels.filter((l) => l !== label);
+      }
+      return note;
+    });
+
+    setNotes(updatedNotes);
+  };
+
   const prepareFilters = () => {
     const availableFilters: Filter[] = [
       {
@@ -134,6 +147,7 @@ const NotesProvider = ({ children }: NotesProviderProps) => {
     toggleNoteArchive,
     labels,
     saveLabel,
+    deleteLabel,
     filters,
     setFilters,
   };
