@@ -21,6 +21,7 @@
   background: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   z-index: 2;
+  transition: all 0.3s ease;
 }
 
 .popup-close {
@@ -80,7 +81,6 @@ input[type="checkbox"] {
 .popup textarea {
   min-height: 100px;
   max-height: 50vh;
-  transition: height 0.3s;
   resize: none;
   overflow-y: hidden;
 }

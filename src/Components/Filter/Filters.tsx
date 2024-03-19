@@ -44,8 +44,9 @@ const Filters = ({ filteredNotes }: LabelsProps) => {
           } else {
             return (
               !filter.selected ||
-              (note[filter.key] as string).indexOf(filter.selected as string) >
-                -1
+              (note[filter.key] as string)
+                .toUpperCase()
+                .indexOf((filter.selected as string).toUpperCase()) > -1
             );
           }
         } else if (Array.isArray(filter.selected)) {
