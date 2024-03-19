@@ -4,9 +4,10 @@ import {
   parseJsonFromLocalStorage,
   setJsonToLocalStorage,
 } from "../Shared/Utilities/LocalStorageUtils";
-import { StorageKeys } from "../Constants/Strings";
+import { Backgrounds, StorageKeys } from "../Constants/Strings";
 import { NotesContext, NotesContextProps } from "../Context/NotesContext";
 import { mergeFilters } from "../Shared/Utilities/FiltersUtils";
+import BackgroundFilter from "../Components/Filter/BackgroundFilter";
 
 export interface NotesProviderProps {
   children: ReactNode;
@@ -100,6 +101,22 @@ const NotesProvider = ({ children }: NotesProviderProps) => {
         options: labels,
         selected: [],
         default: [],
+      },
+      {
+        key: "color",
+        label: "Color",
+        valueType: "string",
+        options: Backgrounds,
+        selected: [],
+        default: [],
+        component: BackgroundFilter,
+      },
+      {
+        key: "title",
+        label: "Title",
+        valueType: "string",
+        selected: "",
+        default: "",
       },
     ];
     let savedFilters = parseJsonFromLocalStorage<Filter>(StorageKeys.Filters);

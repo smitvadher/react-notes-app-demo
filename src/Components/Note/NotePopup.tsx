@@ -31,7 +31,7 @@ const NotePopup = ({ open = false, onClose }: NotePopupProps) => {
     isChecked: false,
     isPinned: false,
     isArchived: false,
-    color: "",
+    color: "#ffffff",
     content: "",
     labels: [],
   };

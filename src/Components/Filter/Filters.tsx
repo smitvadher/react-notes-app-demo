@@ -1,8 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { NotesContext, NotesContextProps } from "../../Context/NotesContext";
-import { Filter as FilterObj, Note as NoteObj } from "../../Shared/Types";
+import {
+  FilterComponentProps,
+  Filter as FilterObj,
+  Note as NoteObj,
+} from "../../Shared/Types";
+import BooleanFilter from "./BooleanFilter";
+import ArrayFilter from "./ArrayFilter";
+import StringFilter from "./StringFilter";
 
 interface LabelsProps {
   filteredNotes: (notes: NoteObj[]) => void;
@@ -15,28 +22,12 @@ const Filters = ({ filteredNotes }: LabelsProps) => {
 
   const [removeOption, setRemoveOption] = useState(false);
 
-  const toggleFilter = (filter: FilterObj) => {
+  const toggleFilter = (updatedFilter: FilterObj) => {
     setFilters(
       filters.map((prevFilter) =>
-        prevFilter.key === filter.key ? filter : prevFilter
+        prevFilter.key === updatedFilter.key ? updatedFilter : prevFilter
       )
     );
-  };
-
-  const toggleBooleanFilter = (filter: FilterObj) => {
-    toggleFilter({ ...filter, selected: !(filter.selected as boolean) });
-  };
-
-  const toggleArrayFilter = (filter: FilterObj, value: string) => {
-    if (!Array.isArray(filter.selected)) {
-      return;
-    }
-
-    const selectedValues = filter.selected.includes(value)
-      ? filter.selected.filter((prevSelected) => prevSelected !== value)
-      : [...filter.selected, value];
-
-    toggleFilter({ ...filter, selected: selectedValues });
   };
 
   const handleOnFilterChange = () => {
@@ -44,6 +35,19 @@ const Filters = ({ filteredNotes }: LabelsProps) => {
       return filters.every((filter) => {
         if (filter.valueType === "boolean") {
           return note[filter.key] == filter.selected;
+        } else if (filter.valueType === "string") {
+          if (Array.isArray(filter.selected)) {
+            return (
+              filter.selected.length === 0 ||
+              filter.selected.some((selected) => note[filter.key] == selected)
+            );
+          } else {
+            return (
+              !filter.selected ||
+              (note[filter.key] as string).indexOf(filter.selected as string) >
+                -1
+            );
+          }
         } else if (Array.isArray(filter.selected)) {
           return (
             filter.selected.length === 0 ||
@@ -72,62 +76,44 @@ const Filters = ({ filteredNotes }: LabelsProps) => {
       filters.some(
         (filter) =>
           filter.selected === true ||
+          (filter.selected as string).length > 0 ||
           (Array.isArray(filter.selected) && filter.selected.length > 0)
       )
     );
   }, [filters]);
 
+  const renderFunctionMap: { [key: string]: React.FC<FilterComponentProps> } = {
+    boolean: BooleanFilter,
+    array: ArrayFilter,
+    string: StringFilter,
+  };
+
   return (
     <div className="filters">
       <ul className="capsules">
         {filters.map((filter) => {
-          if (filter.valueType === "boolean") {
-            let selected = filter.selected;
+          if (filter.component) {
             return (
-              <li
+              <filter.component
                 key={filter.key}
-                className={`capsule ${selected ? "active" : ""}`}
-                title={selected ? `Filterd by ${filter.label}` : ""}
-                onClick={() => toggleBooleanFilter(filter)}
-              >
-                {filter.label}
-                {selected && (
-                  <FontAwesomeIcon
-                    className="action-btn icon active"
-                    icon={faCheck}
-                    onClick={() => toggleBooleanFilter(filter)}
-                  />
-                )}
-              </li>
+                filter={filter}
+                onToggleFilter={toggleFilter}
+              />
             );
-          } else if (filter.valueType === "array" && filter.options?.length) {
-            return filter.options.map((option) => {
-              let selected =
-                Array.isArray(filter.selected) &&
-                filter.selected.includes(option);
-              return (
-                <li
-                  key={option}
-                  className={`capsule ${selected ? "active" : ""}`}
-                  title={selected ? `Filterd by ${option}` : ""}
-                  onClick={() => toggleArrayFilter(filter, option)}
-                >
-                  {option}
-                  {selected && (
-                    <FontAwesomeIcon
-                      className="action-btn icon active"
-                      icon={faCheck}
-                      onClick={() => toggleArrayFilter(filter, option)}
-                    />
-                  )}
-                </li>
-              );
-            });
+          } else {
+            const FilterComponent = renderFunctionMap[filter.valueType];
+            return (
+              <FilterComponent
+                key={filter.key}
+                filter={filter}
+                onToggleFilter={toggleFilter}
+              />
+            );
           }
-          return null;
         })}
         {removeOption && (
           <li
+            key={"remove-filters"}
             className="capsule reset active"
             title="Reset filters"
             onClick={resetFilters}

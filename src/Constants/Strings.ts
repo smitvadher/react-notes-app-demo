@@ -7,12 +7,11 @@ export const StorageKeys = {
 };
 
 export const Backgrounds: Background[] = [
-  { name: "None", value: "" },
+  { name: "White", value: "#ffffff" },
   { name: "Pink", value: "#ffd1dc" },
   { name: "Blue", value: "#aec6cf" },
   { name: "Green", value: "#b0e57c" },
   { name: "Yellow", value: "#ffff99" },
-  { name: "Purple", value: "#b19cd9" },
   { name: "Orange", value: "#ffb347" },
   { name: "Turquoise", value: "#afeeee" },
   { name: "Lavender", value: "#e6e6fa" },
