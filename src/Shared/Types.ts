@@ -17,3 +17,8 @@ export interface Filter {
   selected: boolean | string | string[];
   default: boolean | string | string[];
 }
+
+export interface Background {
+  name: string;
+  value?: string;
+}

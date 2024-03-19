@@ -8,8 +8,10 @@ import {
   faTags,
   faTimes,
   faTrash,
+  faPalette,
 } from "@fortawesome/free-solid-svg-icons";
 import Labels from "../Label/Labels";
+import Background from "./Background";
 
 interface NotePopupProps {
   open?: boolean;
@@ -22,6 +24,7 @@ const NotePopup = ({ open = false, onClose }: NotePopupProps) => {
   ) as NotesContextProps;
 
   const [manageLabels, setManageLabels] = useState(false);
+  const [manageBackground, setManageBackground] = useState(false);
 
   const emptyNote = {
     title: "",
@@ -77,6 +80,12 @@ const NotePopup = ({ open = false, onClose }: NotePopupProps) => {
     setNote({ ...note, labels: selectedLabels });
   };
 
+  const handleBackgroundSelect = (selectedBackground: string) => {
+    setNote({ ...note, color: selectedBackground });
+  };
+
+  const closeBackground = () => setManageBackground(false);
+
   const handleLabelRemoveIconClick = (label: string) => {
     setNote({ ...note, labels: note.labels.filter((l) => l !== label) });
     setManageLabels(false);
@@ -111,7 +120,7 @@ const NotePopup = ({ open = false, onClose }: NotePopupProps) => {
       {(open || editingNote) && (
         <>
           <div className="overlay" onClick={handleSaveNote}></div>
-          <div className="popup">
+          <div className="popup" style={{ backgroundColor: note.color }}>
             <FontAwesomeIcon
               className={`pin icon ${note.isPinned ? "active" : ""}`}
               icon={faThumbTack}
@@ -163,6 +172,12 @@ const NotePopup = ({ open = false, onClose }: NotePopupProps) => {
                   onClick={() => setManageLabels(true)}
                   title="Label note"
                 />
+                <FontAwesomeIcon
+                  className="colors icon"
+                  icon={faPalette}
+                  onClick={() => setManageBackground(true)}
+                  title="Color note"
+                />
                 {editingNote && (
                   <FontAwesomeIcon
                     className="delete icon"
@@ -170,6 +185,13 @@ const NotePopup = ({ open = false, onClose }: NotePopupProps) => {
                     onClick={handleDeleteIconClick}
                     title="Delete note"
                   />
+                )}
+                {manageBackground && (
+                  <Background
+                    onSelect={handleBackgroundSelect}
+                    selected={note.color}
+                    onClose={closeBackground}
+                  ></Background>
                 )}
                 {manageLabels && (
                   <Labels

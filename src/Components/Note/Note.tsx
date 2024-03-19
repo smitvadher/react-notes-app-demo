@@ -8,8 +8,10 @@ import {
   faTags,
   faTimes,
   faTrash,
+  faPalette,
 } from "@fortawesome/free-solid-svg-icons";
 import Labels from "../Label/Labels";
+import Background from "./Background";
 
 interface NoteProp {
   note: NoteObj;
@@ -25,12 +27,19 @@ const Note = ({ note }: NoteProp) => {
   } = useContext(NotesContext) as NotesContextProps;
 
   const [manageLabels, setManageLabels] = useState(false);
+  const [manageBackground, setManageBackground] = useState(false);
   const [isMouseOver, setIsMouseOver] = useState(false);
 
   const closeLabels = () => setManageLabels(false);
 
   const handleLabelSelect = (selectedLabels: string[]) => {
     saveNote({ ...note, labels: selectedLabels });
+  };
+
+  const closeBackground = () => setManageBackground(false);
+
+  const handleBackgroundSelect = (selectedBackground: string) => {
+    saveNote({ ...note, color: selectedBackground });
   };
 
   const handleLabelRemoveIconClick = (label: string) => {
@@ -50,13 +59,13 @@ const Note = ({ note }: NoteProp) => {
     e.stopPropagation();
   };
 
+  const active = isMouseOver || manageLabels || manageBackground;
   return (
     <div
-      className={`note n-clickable ${
-        isMouseOver || manageLabels ? "active" : ""
-      }`}
+      className={`note n-clickable ${active ? "active" : ""}`}
       onMouseEnter={() => setIsMouseOver(true)}
       onMouseLeave={() => setIsMouseOver(false)}
+      style={{ backgroundColor: note.color }}
     >
       <div className="n-clickable" onClick={handleContainerClick}>
         <FontAwesomeIcon
@@ -97,11 +106,24 @@ const Note = ({ note }: NoteProp) => {
           title="Label note"
         />
         <FontAwesomeIcon
+          className="colors icon"
+          icon={faPalette}
+          onClick={() => setManageBackground(true)}
+          title="Color note"
+        />
+        <FontAwesomeIcon
           className="delete icon"
           icon={faTrash}
           onClick={() => deleteNote(note)}
           title="Delete note"
         />
+        {manageBackground && (
+          <Background
+            onSelect={handleBackgroundSelect}
+            selected={note.color}
+            onClose={closeBackground}
+          ></Background>
+        )}
         {manageLabels && (
           <Labels
             onSelect={handleLabelSelect}

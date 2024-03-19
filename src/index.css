@@ -53,13 +53,13 @@ input[type="text"],
 textarea {
   border: none;
   outline: none;
-  background-color: #eeeeee;
+  background-color: rgb(202 202 202 / 45%);
   border-radius: 10px;
 }
 
 input[type="text"]:focus,
 textarea:focus {
-  background-color: #cacaca;
+  background-color: rgb(202 202 202 / 69%);
 }
 
 input[type="checkbox"] {
@@ -86,8 +86,8 @@ input[type="checkbox"] {
 }
 
 .button {
-  background-color: #ffffff;
-  outline: 2px solid #eeeeee;
+  background-color: transparent;
+  outline: 2px solid #aaaaaa;
   display: inline-block;
   padding: 15px 30px;
   font-size: 1.2rem;
@@ -137,7 +137,7 @@ input[type="checkbox"] {
 .note {
   position: relative;
   background-color: #ffffff;
-  border: 1px solid #cccccc;
+  border: 1px solid #aaaaaa;
   border-radius: 10px;
   margin-bottom: 20px;
   display: inline-block;
@@ -238,7 +238,7 @@ input[type="checkbox"] {
   left: 45px;
   z-index: 1;
   background-color: #ffffff;
-  border: 1px solid #cccccc;
+  border: 1px solid #aaaaaa;
   border-radius: 10px;
   padding: 15px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -284,7 +284,7 @@ input[type="checkbox"] {
   display: inline-block;
   margin-right: 5px;
   padding: 2px 12px;
-  border: 1px solid #cccccc;
+  border: 1px solid #aaaaaa;
   border-radius: 15px;
   cursor: pointer;
   position: relative;
@@ -346,4 +346,42 @@ input[type="checkbox"] {
 .filters .capsule.reset .icon {
   color: #db3434;
   opacity: 1;
+}
+
+.color-selector {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  position: absolute;
+  top: 80%;
+  left: 70px;
+  z-index: 1;
+  background-color: #ffffff;
+  border: 1px solid #aaaaaa;
+  border-radius: 10px;
+  padding: 5px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.color-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid #aaaaaa;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.color-circle.active {
+  border: 3px solid #3498db;
+}
+
+.color-circle .selected-icon {
+  position: relative;
+  left: -3px;
+  top: -6px;
+  padding: 2px;
+  border-radius: 50%;
+  background: #3498db;
+  width: 12px;
+  height: 12px;
 }
