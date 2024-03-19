@@ -15,7 +15,8 @@ const ArrayFilter = ({ filter, onToggleFilter }: FilterComponentProps) => {
   };
 
   return (
-    filter.options?.length &&
+    filter.options &&
+    filter.options.length > 0 &&
     filter.options.map((option) => {
       let selected =
         Array.isArray(filter.selected) && filter.selected.includes(option);
